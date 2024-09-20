@@ -64,39 +64,56 @@ class MyLogisticRegression:
         '''
         self.read_csv(1)
         self.model_fit_linear()
-        accuracy = 0.0
-        precision, recall, f1, support = np.array([0,0]), np.array([0,0]), np.array([0,0]), np.array([0,0])
         assert self.model_linear is not None, "Initialize the model, i.e. instantiate the variable self.model_linear in model_fit_linear method"
-        assert self.training_set is not None, "self.read_csv function isn't called or the self.trianing_set hasn't been initialized "
-        
+        assert self.training_set is not None, "self.read_csv function isn't called or the self.training_set hasn't been initialized"
+
         if self.X_test is not None:
-            # perform prediction here
-            self.model_linear.predict(self.X_test)
-            r_score = self.model_linear.score(self.X_test, self.y_test)
-            print("Linear Regression Accuracy: " + str(r_score))
-            pass
+            predictions = self.model_linear.predict(self.X_test)
+            
+            predictions_binary = (predictions >= 0.5).astype(int)
+
+            accuracy = accuracy_score(self.y_test, predictions_binary)
+            precision, recall, f1, support = precision_recall_fscore_support(self.y_test, predictions_binary, average=None)
+
+            print("Linear Regression Accuracy: {:.2f}".format(accuracy))
+            print("Precision: ", precision)
+            print("Recall: ", recall)
+            print("F1 Score: ", f1)
+            print("Support: ", support)
+        else:
+            accuracy = 0.0
+            precision, recall, f1, support = np.array([0, 0]), np.array([0, 0]), np.array([0, 0]), np.array([0, 0])
         
-        assert precision.shape == recall.shape == f1.shape == support.shape == (2,), "precision, recall, f1, support should be an array of shape (2,)"
         return [accuracy, precision, recall, f1, support]
+
+
 
     def model_predict_logistic(self):
         '''
         Calculate and return the accuracy, precision, recall, f1, support of the model.
         '''
         self.model_fit_logistic()
-        accuracy = 0.0
-        precision, recall, f1, support = np.array([0,0]), np.array([0,0]), np.array([0,0]), np.array([0,0])
         assert self.model_logistic is not None, "Initialize the model, i.e. instantiate the variable self.model_logistic in model_fit_logistic method"
-        assert self.training_set is not None, "self.read_csv function isn't called or the self.trianing_set hasn't been initialized "
+        assert self.training_set is not None, "self.read_csv function isn't called or the self.training_set hasn't been initialized"
+
         if self.X_test is not None:
-            # perform prediction here
-            self.model_logistic.predict(self.X_test)
-            score = self.model_logistic.score(self.X_test, self.y_test)
-            print("Logistic Accuracy: " + str(score))
-            pass
+            predictions = self.model_logistic.predict(self.X_test)
+            accuracy = accuracy_score(self.y_test, predictions)
+            
+            precision, recall, f1, support = precision_recall_fscore_support(self.y_test, predictions, average='binary')
+
+            print("Logistic Regression Accuracy: {:.2f}".format(accuracy))
+            print("Precision: {:.2f}".format(precision))
+            print("Recall: {:.2f}".format(recall))
+            print("F1 Score: {:.2f}".format(f1))
+            print("Support: {}".format(support))
+            
+        else:
+            accuracy = 0.0
+            precision, recall, f1, support = np.array([0, 0]), np.array([0, 0]), np.array([0, 0]), np.array([0, 0])
         
-        assert precision.shape == recall.shape == f1.shape == support.shape == (2,), "precision, recall, f1, support should be an array of shape (2,)"
         return [accuracy, precision, recall, f1, support]
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Linear Regression')
