@@ -87,7 +87,6 @@ class MyLogisticRegression:
         return [accuracy, precision, recall, f1, support]
 
 
-
     def model_predict_logistic(self):
         '''
         Calculate and return the accuracy, precision, recall, f1, support of the model.
@@ -100,19 +99,20 @@ class MyLogisticRegression:
             predictions = self.model_logistic.predict(self.X_test)
             accuracy = accuracy_score(self.y_test, predictions)
             
-            precision, recall, f1, support = precision_recall_fscore_support(self.y_test, predictions, average='binary')
+            precision, recall, f1, support = precision_recall_fscore_support(self.y_test, predictions, average=None)
 
             print("Logistic Regression Accuracy: {:.2f}".format(accuracy))
-            print("Precision: {:.2f}".format(precision))
-            print("Recall: {:.2f}".format(recall))
-            print("F1 Score: {:.2f}".format(f1))
-            print("Support: {}".format(support))
+            print("Precision: ", precision)
+            print("Recall: ", recall)
+            print("F1 Score: ", f1)
+            print("Support: ", support)
             
         else:
             accuracy = 0.0
             precision, recall, f1, support = np.array([0, 0]), np.array([0, 0]), np.array([0, 0]), np.array([0, 0])
         
         return [accuracy, precision, recall, f1, support]
+
 
 
 if __name__ == '__main__':
