@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from kmeans_clustering import MykmeansClustering
+from kmeans_clustering import MyKMeansClustering
 import unittest
 import numpy as np
 
 class TestMyLogisticRegression(unittest.TestCase):
 
 	def test_basic_play_game_1(self):
-		classifier = MykmeansClustering('dataset_q2.mat')
+		classifier = MyKMeansClustering('dataset_q2.mat')
 		clusters = classifier.model_fit()
 
 		if clusters.shape[0] < 3:
@@ -14,7 +14,7 @@ class TestMyLogisticRegression(unittest.TestCase):
 		self.assertTrue(clusters.shape[0] >= 3)
 
 	def test_basic_play_game_2(self):
-		classifier = MykmeansClustering('dataset_q2.mat')
+		classifier = MyKMeansClustering('dataset_q2.mat')
 		clusters = classifier.model_fit()
 		
 		res = np.array([[1.95399466, 5.02557006],
